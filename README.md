@@ -1,8 +1,6 @@
 <!-- markdownlint-disable MD033 -->
 <!-- markdownlint-disable MD041 -->
 
-<h2 align="left">This is my personal fork of Lune. It is unstable 99% of the time lol.</h2>
-
 <img align="right" width="250" src="assets/logo/tilt_svg.svg" alt="Lune logo" />
 
 <h1 align="center">Lune</h1>
