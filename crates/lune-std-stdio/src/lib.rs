@@ -6,11 +6,15 @@ use mlua_luau_scheduler::LuaSpawnExt;
 
 use tokio::io::{stderr, stdin, stdout, AsyncReadExt, AsyncWriteExt};
 
+use rawkey::RawKey;
+
 use lune_utils::TableBuilder;
 
+mod key_inputs;
 mod prompt;
 mod style_and_color;
 
+use self::key_inputs::KeyKind;
 use self::prompt::{prompt, PromptOptions, PromptResult};
 use self::style_and_color::{ColorKind, StyleKind};
 
@@ -34,6 +38,7 @@ pub fn module(lua: &Lua) -> LuaResult<LuaTable> {
         .with_async_function("ewrite", stdio_ewrite)?
         .with_async_function("readToEnd", stdio_read_to_end)?
         .with_async_function("prompt", stdio_prompt)?
+        .with_function("isKeyPressed", stdio_is_key_pressed)?
         .build_readonly()
 }
 
@@ -82,4 +87,14 @@ async fn stdio_prompt(lua: &Lua, options: PromptOptions) -> LuaResult<PromptResu
     lua.spawn_blocking(move || prompt(options))
         .await
         .into_lua_err()
+}
+
+fn stdio_is_key_pressed(_: &Lua, key: KeyKind) -> LuaResult<bool> {
+    let rawkey = RawKey::new();
+
+    if rawkey.is_pressed(key.key_code_object()) {
+        Ok(true)
+    } else {
+        Ok(false)
+    }
 }
