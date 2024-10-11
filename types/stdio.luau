@@ -9,6 +9,20 @@ export type Color =
 	| "cyan"
 	| "white"
 export type Style = "reset" | "bold" | "dim"
+export type Key =
+	"esc"
+	| "arrowUp"
+	| "arrowDown"
+	| "arrowLeft"
+	| "arrowRight"
+	| "shiftLeft"
+	| "ctrlLeft"
+	| "tab"
+	| "backspace"
+	| "space"
+	| "pageUp"
+	| "pageDown"
+	| "alt"
 
 type PromptFn = (
 	(() -> string)
@@ -155,6 +169,18 @@ function stdio.ewrite(s: string) end
     @return The input from stdin
 ]=]
 function stdio.readToEnd(): string
+	return nil :: any
+end
+
+--[=[
+	@within Stdio
+
+	Checks if a key was pressed and returns whether or not the key was pressed.
+
+	@param key The key to check
+	@return Whether or not the key was pressed
+]=]
+function stdio.isKeyPressed(key: Key): boolean
 	return nil :: any
 end
 
